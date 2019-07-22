@@ -8,11 +8,14 @@ class Likes(Resource):
     self.table = self.db.Table('brewery-app-favorites-prod')
 
   def get(self, brewery_id):
-    response = self.table.get_item(
+    try:
+      response = self.table.get_item(
       Key={
         'BreweryId': brewery_id
       }
     )
+    except Exception as e:
+      print(e)
 
     item = response['Item']
 
