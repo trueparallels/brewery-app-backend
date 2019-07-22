@@ -28,6 +28,11 @@ jobs:
             docker build . -t brewery-app-backend:latest
 
       - run:
+          name: Testing
+          command: |
+            ./build.sh
+
+      - run:
           name: Tag Container
           command: |
             docker tag $ECR_URL:build-$CIRCLE_BUILD_NUM $ECR_URL:latest
