@@ -23,21 +23,6 @@ jobs:
       - checkout
 
       - run:
-          name: Build Container
-          command: |
-            docker build . -t brewery-app-backend:latest
-
-      - run:
-          name: Testing
+          name: Build Container and Push to ECR
           command: |
             ./build.sh
-
-      - run:
-          name: Tag Container
-          command: |
-            docker tag $ECR_URL:build-$CIRCLE_BUILD_NUM $ECR_URL:latest
-
-      - run:
-          name: Push to ECR
-          command: |
-            docker push $ECR_URL:latest
