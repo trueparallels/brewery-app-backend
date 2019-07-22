@@ -1,9 +1,10 @@
 from flask_restful import Resource
 import boto3
+import sys
 
 class Likes(Resource):
   def __init__(self):
-    self.session = boto3.Session(profile_name='kyle-sa')
+    self.session = boto3.Session()
     self.db = self.session.resource('dynamodb', region_name='us-east-1')
     self.table = self.db.Table('brewery-app-favorites-prod')
 
@@ -15,7 +16,7 @@ class Likes(Resource):
       }
     )
     except Exception as e:
-      print(e)
+      sys.exit(e)
 
     item = response['Item']
 
