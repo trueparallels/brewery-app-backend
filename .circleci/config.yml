@@ -21,9 +21,9 @@ jobs:
       - setup_remote_docker
 
       - run:
-        name: Install AWS CLI
-        command: |
-          pip install aws-cli
+          name: Install AWS CLI
+          command: |
+            pip install aws-cli
 
       - checkout
 
