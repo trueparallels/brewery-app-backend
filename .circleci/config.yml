@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Install AWS CLI
           command: |
-            pip install aws-cli
+            sudo pip install awscli
 
       - checkout
 
