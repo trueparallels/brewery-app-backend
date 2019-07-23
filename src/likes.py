@@ -1,4 +1,5 @@
 from flask_restful import Resource
+from flask_restful.utils import cors
 import boto3
 import sys
 
@@ -8,6 +9,7 @@ class Likes(Resource):
     self.db = self.session.resource('dynamodb', region_name='us-east-1')
     self.table = self.db.Table('brewery-app-favorites-prod')
 
+  @cors.crossdomain(origin='*')
   def get(self, brewery_id):
     try:
       response = self.table.get_item(
@@ -22,6 +24,7 @@ class Likes(Resource):
 
     return { "count": int(item['Likes']) }
 
+  @cors.crossdomain(origin='*')
   def put(self, brewery_id):
     response = self.table.update_item(
       Key={
