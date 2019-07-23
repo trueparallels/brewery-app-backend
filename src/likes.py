@@ -23,17 +23,30 @@ class Likes(Resource):
     return { "count": int(item['Likes']) }
 
   def put(self, brewery_id):
-    response = self.table.update_item(
-      Key={
-        'BreweryId': brewery_id
-      },
-      UpdateExpression='SET Likes = Likes + :inc',
-      ExpressionAttributeValues={
-        ':inc': 1
-      },
-      ReturnValues='UPDATED_NEW'
-    )
+    item = None
 
-    item = response['Attributes']
+    try:
+      response = self.table.update_item(
+        Key={
+          'BreweryId': brewery_id
+        },
+        UpdateExpression='SET Likes = Likes + :inc',
+        ExpressionAttributeValues={
+          ':inc': 1
+        },
+        ReturnValues='UPDATED_NEW'
+      )
+
+      item = response['Attributes']
+    except boto3.exceptions.botocore.exceptions.ClientError:
+      response = self.table.put_item(
+        Item={
+          'BreweryId': brewery_id,
+          'Likes': 1
+        }
+      )
+
+      item = { 'Likes': 1 }
+
 
     return { "count": int(item['Likes'])}
